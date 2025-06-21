@@ -1,0 +1,19 @@
+# Ignore IDE files
+.idea/
+*.iml
+
+# Ignore build artifacts
+target/
+*.class
+
+# Ignore sensitive configuration
+src/main/resources/application.properties
+src/main/resources/application.yml
+
+# Ignore logs
+*.log
+
+# Ignore dependency caches
+.mvn/
+mvnw
+mvnw.cmd
