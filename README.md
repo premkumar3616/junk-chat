@@ -179,4 +179,3 @@ Permissions:
 - Commercial use, modification, distribution, private use are permitted.
 - The software is provided "as is", without warranty of any kind.
 
-If you'd prefer a different license (Apache-2.0, GPL-3.0, etc.), tell me and I will replace the LICENSE file and update this README.
