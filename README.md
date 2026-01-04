@@ -2,7 +2,7 @@
 
 Lightweight, real-time chat application prototype combining a Java backend with a JavaScript-based web client. Junk Chat is designed as a simple starting point for building chat systems, demos, or experiments in real-time messaging, presence, and UI/UX for small teams or personal projects.
 
-> Note: This README is written to be implementation-agnostic. Replace the example commands and configuration with the concrete build/tooling choices used in this repository (Maven/Gradle, framework names, package.json scripts, etc.) if they differ.
+> Note: This README is implementation-agnostic. Replace example commands and configuration with the concrete build/tooling choices used in this repository (Maven/Gradle, framework names, package.json scripts, etc.) if they differ.
 
 ## Table of contents
 - Project overview
@@ -21,7 +21,7 @@ Junk Chat is a small chat application that demonstrates how to build a real-time
 - A reference for integrating frontend and backend components in a mixed-language codebase.
 
 ## Features
-- Real-time messaging between connected clients (WebSocket or Socket-based transport)
+- Real-time messaging between connected clients (WebSocket or socket-based transport)
 - Multi-room / channel support (basic)
 - User presence (online / offline indicator)
 - Simple client UI with message list, input box, and user list
@@ -99,7 +99,7 @@ If using Docker Compose, provide a `docker-compose.yml` to orchestrate backend, 
 Troubleshooting
 - Check logs produced by the Java process for stack traces
 - Verify ports are not in use by other processes
-- Ensure web socket connection URLs match the backend host/port and path
+- Ensure WebSocket connection URLs match the backend host/port and path
 
 ## Folder structure
 This is a recommended / typical structure for a Java + JavaScript chat project. Adjust to match this repository’s actual layout.
@@ -172,13 +172,11 @@ Contributions are welcome. To contribute:
 Please follow code style conventions and include tests where appropriate.
 
 ## License
-Specify your license here (e.g., MIT, Apache-2.0). If you do not yet have a license file in the repository, add one and update this section.
 
----
+This project is licensed under the MIT License — see the [LICENSE](https://github.com/premkumar3616/junk-chat/blob/main/LICENSE) file for details.
 
-If you’d like, I can:
-- Draft a Dockerfile and docker-compose.yml for a standard backend+frontend setup
-- Create a basic Spring Boot skeleton or a minimal frontend (React/Vite) scaffold
-- Add a sample configuration file (application.properties / .env) for quick start
+Permissions:
+- Commercial use, modification, distribution, private use are permitted.
+- The software is provided "as is", without warranty of any kind.
 
-Tell me which of those you'd like next and I’ll generate the files. 
+If you'd prefer a different license (Apache-2.0, GPL-3.0, etc.), tell me and I will replace the LICENSE file and update this README.
