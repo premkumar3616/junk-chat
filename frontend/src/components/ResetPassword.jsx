@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import '../styles/Login.css';
-
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 function ResetPassword() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -15,7 +15,7 @@ function ResetPassword() {
     setMessage('');
     setError('');
     try {
-      await axios.post('/api/auth/reset-password', { token, password });
+      await axios.post(`${API_BASE_URL}/api/auth/reset-password`, { token, password });
       setMessage('Password reset successfully. Please login.');
     } catch (error) {
       setError(error.response?.data || 'Failed to reset password.');

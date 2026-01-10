@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/Login.css';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function Register() {
   const [userData, setUserData] = useState({ username: '', email: '', password: '' });
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,16 +18,42 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Sending request to:', '/api/auth/register');
-      const response = await axios.post('/api/auth/register', userData);
-      console.log('Registration successful:', response.data);
+      await axios.post(`${API_BASE_URL}/api/auth/register`, userData);
+      toast.success('Registration successful!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       navigate('/');
-    } catch (err) {
-      console.error('Registration failed:', err);
-      console.error('Request URL:', err.config?.url);
-      console.error('Response status:', err.response?.status);
-      console.error('Response data:', err.response?.data);
-      setError('Registration failed. Please try again.');
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message;
+      if (
+        error.response?.status === 400 ||
+        error.response?.status === 409 || 
+        errorMessage.toLowerCase().includes('user already exists') || 
+        errorMessage.toLowerCase().includes('user is already present')
+      ) {
+        toast.error('User already exists', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error('Registration failed: ' + errorMessage, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     }
   };
 
@@ -32,7 +61,6 @@ function Register() {
     <div className="auth-container">
       <div className="auth-form">
         <h2>Register</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username</label>
@@ -72,6 +100,7 @@ function Register() {
           Already have an account? <Link to="/">Login</Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 }

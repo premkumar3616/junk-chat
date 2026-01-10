@@ -4,6 +4,7 @@ package com.pk.junkchat_backend.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "contact")
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

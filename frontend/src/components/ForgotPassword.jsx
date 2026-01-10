@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Login.css';
-
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
     setError('');
     try {
-      await axios.post('/api/auth/forgot-password', { email });
+      await axios.post(`${API_BASE_URL}/api/auth/forgot-password`, { email });
       setMessage('Password reset link sent to your email.');
     } catch (error) {
       setError(error.response?.data || 'Error sending reset link. Please try again.');
     }
   };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div className="auth-container">

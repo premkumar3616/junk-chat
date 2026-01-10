@@ -1,12 +1,16 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/Login.css';
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -15,27 +19,48 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Sending request to:', '/api/auth/login', 'Payload:', credentials);
-      const response = await axios.post('/api/auth/login', credentials);
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, credentials);
       localStorage.setItem('token', response.data.token);
-      console.log('Login successful:', response.data);
-      navigate('/chat');
+      
+      toast.success('Login successful!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      navigate('/chat', { state: { fromLogin: true } });
     } catch (err) {
-      console.error('Login failed:', err);
-      console.error('Request URL:', err.config?.url);
-      console.error('Request Payload:', err.config?.data);
-      console.error('Response status:', err.response?.status);
-      console.error('Response headers:', err.response?.headers);
-      console.error('Response data:', err.response?.data || 'No response data');
-      setError('Login failed. Please check your credentials.');
+      setError('Login failed. Please check your credentials.',err);
+      toast.error('Invalid credentials. Please try again.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
+
+  useEffect(() => {
+    if (location.state?.fromLogout) {
+      toast.success('Logged out successfully', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }, [location]);
 
   return (
     <div className="auth-container">
       <div className="auth-form">
         <h2>Login</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username or Email</label>
@@ -68,6 +93,7 @@ function Login() {
           Don't have an account? <Link to="/register">Register</Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 }
